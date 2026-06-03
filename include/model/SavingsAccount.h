@@ -12,10 +12,11 @@ public:
     SavingsAccount(const std::string& accountId, double initialBalance, const std::string& currency, 
                    AccountStatus status, std::shared_ptr<Customer> owner, double interestRate, InterestPeriod period);
 
-    void withdraw(double amount) override; // Имплементация (напр. без право на надвишаване на баланса)
+    // Пренаписване на метода за теглене
+    void withdraw(double amount) override; 
     
-    double calculateInterest() const;
-    void applyInterest();
+    // Новият метод, който приема вече изчислената от калкулатора сума
+    void applyInterestAmount(double amount);
 
     double getInterestRate() const;
     InterestPeriod getInterestPeriod() const;

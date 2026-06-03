@@ -20,15 +20,16 @@ void SavingsAccount::withdraw(double amount) {
     
     setBalance(getBalance() - amount);
 }
-
-double SavingsAccount::calculateInterest() const {
-    return getBalance() * (interestRate / 100.0);
-}
-
-void SavingsAccount::applyInterest() {
-    if (getStatus() != AccountStatus::ACTIVE) return;
-    double interest = calculateInterest();
-    setBalance(getBalance() + interest);
+void SavingsAccount::applyInterestAmount(double amount) {
+    if (getStatus() != AccountStatus::ACTIVE) {
+        throw std::runtime_error("Сметката не е активна. Начисляването е отказано.");
+    }
+    if (amount < 0) {
+        throw std::invalid_argument("Лихвата не може да бъде отрицателна сума.");
+    }
+    
+    // Записваме промяната в баланса чрез protected метода
+    setBalance(getBalance() + amount); 
 }
 
 double SavingsAccount::getInterestRate() const {
