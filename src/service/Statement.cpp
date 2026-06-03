@@ -11,12 +11,13 @@ Statement::Statement(const std::string& statementId, std::shared_ptr<Account> ac
 void Statement::generate() {
     if (!account) return;
     
+    // Изчистваме старите транзакции преди ново генериране
     transactions.clear();
     auto history = account->getTransactionHistory();
     
-    // Филтриране на транзакциите по зададения период
+    // Хронологично филтриране на успешните транзакции в зададения период
     for (const auto& tx : history) {
-        if (tx->getTimestamp() >= startDate && tx->getTimestamp() <= endDate && tx->getStatus() == TransactionStatus::SUCCESSFUL) {
+        if (tx && tx->getTimestamp() >= startDate && tx->getTimestamp() <= endDate && tx->getStatus() == TransactionStatus::SUCCESSFUL) {
             transactions.push_back(tx);
         }
     }
@@ -33,15 +34,17 @@ std::string Statement::exportStatement(const std::string& format) const {
         ss << "Сметка №: " << account->getAccountId() << "\n";
         ss << "Текущ Баланс: " << account->getBalance() << " " << account->getCurrency() << "\n";
     }
-    ss << "Формат: " << format << "\n";
+    ss << "Формат за експорт: " << format << "\n";
     ss << "--------------------------------------------------\n";
-    ss << "ДВИЖЕНИЯ ПО СМЕТКАТА:\n";
+    ss << "ДВИЖЕНИЯ ПО СМЕТКАТА ЗА ПЕРИОДА:\n";
     
     if (transactions.empty()) {
-        ss << "Няма намерени транзакции за избрания период.\n";
+        ss << "Няма намерени успешни транзакции за избрания период.\n";
     } else {
         for (const auto& tx : transactions) {
-            ss << tx->getDetails() << "\n";
+            if (tx) {
+                ss << tx->getDetails() << "\n";
+            }
         }
     }
     ss << "==================================================\n";
