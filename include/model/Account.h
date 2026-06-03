@@ -37,7 +37,7 @@ public:
 
     // Виртуални методи за транзакциите
     virtual void deposit(double amount);
-    virtual virtual void withdraw(double amount) = 0; // Чисто виртуален метод (сериозна валидация в наследниците)
+    virtual void withdraw(double amount) = 0; // Чисто виртуален метод (сериозна валидация в наследниците)
     
     void addTransactionToHistory(std::shared_ptr<Transaction> transaction);
     std::vector<std::shared_ptr<Transaction>> getTransactionHistory() const;
