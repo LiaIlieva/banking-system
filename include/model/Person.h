@@ -11,10 +11,10 @@ protected:
 
 public:
     Person(const std::string& name, const std::string& email, const std::string& phone);
-    virtual ~Person() = default; // Задължителен виртуален деструктор за абстрактен клас
+    virtual ~Person() = default; 
 
     virtual std::string getContactInfo() const;
-    virtual bool validate() const = 0; // Чисто виртуален метод (Прави класа абстрактен)
+    virtual bool validate() const = 0; 
 };
 
-#endif // PERSON_H
+#endif
